@@ -81,7 +81,7 @@ O roadmap detalhado e as discussões ficam nas [Issues](../../issues).
 ## Como compilar e gravar
 
 ```bash
-git clone https://github.com/<org>/provisao.git
+git clone https://github.com/Horizonte-Inovacao/provisao.git
 cd provisao/firmware
 pio run                 # compila
 pio run -t upload       # grava no ESP32-C3 via USB-C
