@@ -1,0 +1,23 @@
+# CI — compila o firmware a cada push/PR que tocar em firmware/.
+# O badge de status entra no README quando o repositório for publicado.
+name: Firmware
+
+on:
+  push:
+    paths: ["firmware/**"]
+  pull_request:
+    paths: ["firmware/**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Instalar PlatformIO
+        run: pip install platformio
+      - name: Compilar
+        working-directory: firmware
+        run: pio run

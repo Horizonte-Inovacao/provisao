@@ -1,0 +1,20 @@
+# PlatformIO
+firmware/.pio/
+firmware/.vscode/
+
+# Binários de build (publicamos via Releases, não no histórico)
+*.bin
+*.elf
+
+# CAD — arquivos temporários e backups
+*.FCBak
+*.FCStd1
+*~
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Mídias brutas pesadas (os arquivos finais comprimidos ficam em media/ e docs/assets/)
+media/brutas/
