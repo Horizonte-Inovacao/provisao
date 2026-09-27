@@ -1,5 +1,5 @@
 // ============================================================
-// PróVisão — configuração central do firmware
+// PróVisão · configuração central do firmware
 // Tudo que é ajuste de calibração fica aqui. A lógica não
 // precisa ser tocada para mudar pino, distância ou intensidade.
 // ============================================================

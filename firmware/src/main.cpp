@@ -1,14 +1,14 @@
 // ============================================================
-// PróVisão — firmware V1.5
+// PróVisão · firmware V1.5
 // Horizonte Inovação Assistiva · 2026
 //
 // Evolução de segurança sobre a V1 (preservada em firmware/legado/):
-//  1. Teto de PWM nos motores — os vibracall são de 1–3 V e o
+//  1. Teto de PWM nos motores: os vibracall são de 1 a 3 V e o
 //     trilho é a tensão da bateria; a V1 mandava 100% do duty.
-//  2. Níveis DISCRETOS de vibração com kick-start — a rampa
+//  2. Níveis DISCRETOS de vibração com kick-start: a rampa
 //     contínua da V1 gerava duty abaixo do limiar de partida do
 //     motor, e o usuário não sentia nada na faixa distante.
-//  3. Falha de sensor agora é AUDÍVEL e recuperável — a V1
+//  3. Falha de sensor agora é AUDÍVEL e recuperável: a V1
 //     travava em silêncio (while(1)), e para um usuário cego um
 //     dispositivo mudo é indistinguível de um funcionando.
 // ============================================================
@@ -34,7 +34,7 @@ uint32_t tempoAnterior = 0;
 
 // ------------------------------------------------------------
 // Padrão sonoro de erro: 3 bipes longos.
-// Usado quando um sensor não inicializa — o usuário precisa
+// Usado quando um sensor não inicializa: o usuário precisa
 // SABER que o dispositivo não está protegendo.
 // ------------------------------------------------------------
 void bipeDeErro() {
@@ -128,7 +128,7 @@ void setup() {
   Wire.begin(PINO_SDA, PINO_SCL);
 
   // Diferente da V1: se um sensor falhar, o dispositivo AVISA
-  // com bipes e tenta de novo — nunca trava em silêncio.
+  // com bipes e tenta de novo, nunca trava em silêncio.
   while (!iniciarSensores()) {
     bipeDeErro();
     delay(RETRY_SENSOR_MS);
@@ -160,6 +160,6 @@ void loop() {
                  (distDir > 0 && distDir <= DIST_CRITICA);
   digitalWrite(PINO_BUZZER, critico ? HIGH : LOW);
 
-  // TODO (V2): interface ITelemetry — registrar distâncias,
+  // TODO (V2): interface ITelemetry para registrar distâncias,
   // níveis e tensão da bateria para análise pós-teste.
 }

@@ -1,4 +1,4 @@
-# CI — compila o firmware a cada push/PR que tocar em firmware/.
+# Verificação automática: compila o firmware a cada envio ou pedido de alteração que mexer em firmware/.
 # O badge de status entra no README quando o repositório for publicado.
 name: Firmware
 
