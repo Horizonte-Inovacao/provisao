@@ -212,3 +212,7 @@ modelagem-3d/
 | Suporte do sensor desmontado | Suporte do sensor visto de frente |
 | ![](imagens/A_placa_interna_com_espuma.png) | ![](imagens/M_berco_motor.png) |
 | Placa interna e almofada de EVA | Berço do motor em TPU |
+
+## Licença
+
+As peças, o código que as desenha e as imagens desta pasta estão sob a CERN-OHL-S 2.0, a mesma licença da eletrônica. O texto completo está em [`eletronica/LICENCA-HARDWARE.md`](../eletronica/LICENCA-HARDWARE.md).

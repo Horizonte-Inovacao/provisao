@@ -8,8 +8,9 @@
 **Transformando o desafio em solução.** Um boné que avisa, por vibração, o que a bengala branca não alcança.
 
 ![Status](https://img.shields.io/badge/status-prot%C3%B3tipo%20V1.5-EBA84C)
-![Firmware](https://img.shields.io/badge/firmware-MIT-1B6C79)
-![Hardware](https://img.shields.io/badge/hardware-CERN--OHL--P%202.0-1B6C79)
+![Firmware](https://img.shields.io/badge/firmware-GPL--3.0-1B6C79)
+![Hardware](https://img.shields.io/badge/hardware-CERN--OHL--S%202.0-1B6C79)
+![Documentação](https://img.shields.io/badge/documenta%C3%A7%C3%A3o-CC%20BY--NC--SA%204.0-1B6C79)
 ![Feito em](https://img.shields.io/badge/feito%20em-Caruaru--PE-E07A5F)
 
 <p align="center">
@@ -127,7 +128,15 @@ A PróVisão nasceu em 2026.1 como projeto de extensão da disciplina de Program
 
 ## Licenças
 
-O programa da placa está sob [MIT](LICENSE). A eletrônica e as peças 3D estão sob [CERN-OHL-P 2.0](eletronica/LICENCA-HARDWARE.md). A documentação está sob [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.pt-br). As três permitem usar, estudar e adaptar o projeto, desde que o crédito seja mantido.
+A PróVisão é aberta e recíproca: qualquer pessoa pode estudar, usar e adaptar o projeto, mas quem distribuir uma versão modificada precisa publicar as próprias melhorias sob a mesma licença e manter o nosso crédito. Contamos por que escolhemos esse caminho na [decisão 006](documentacao/decisoes/006-licencas.md).
+
+| Parte do projeto | Licença | Texto completo |
+|---|---|---|
+| Programa da placa (`firmware/`) | GNU GPL 3.0 | [`firmware/LICENSE`](firmware/LICENSE) |
+| Eletrônica e peças 3D (`eletronica/`, `modelagem-3d/`) | CERN-OHL-S 2.0 | [`eletronica/LICENCA-HARDWARE.md`](eletronica/LICENCA-HARDWARE.md) |
+| Documentação, fotos e vídeos | CC BY-NC-SA 4.0 (sem uso comercial) | [`documentacao/LICENCA-DOCUMENTACAO.md`](documentacao/LICENCA-DOCUMENTACAO.md) |
+
+O resumo de tudo, com as exceções, está no [`LICENSE`](LICENSE). Os nomes PróVisão e Horizonte Inovação Assistiva e o logo não fazem parte dessas licenças. As versões publicadas antes de setembro de 2026 saíram sob MIT, CERN-OHL-P 2.0 e CC BY-SA 4.0 e continuam valendo nessas condições para quem as obteve.
 
 ---
 

@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho, Nadson Alex da Silva
+// SPDX-License-Identifier: GPL-3.0-only
 // ============================================================
 // PróVisão · firmware V1.5
 // Horizonte Inovação Assistiva · 2026

@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho, Nadson Alex da Silva
+# SPDX-License-Identifier: CERN-OHL-S-2.0
+
 """
 Berço do motor de vibração (motor tipo moeda, 10 x 2,7 mm).
 

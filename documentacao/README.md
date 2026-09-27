@@ -8,3 +8,5 @@ Aqui reunimos tudo o que explica a PróVisão por escrito. Se você está chegan
 4. [Registro das nossas decisões](decisoes/): por que escolhemos o sensor a laser, o boné, a bateria 14500, a forma de fixar as peças e o jeito de deixar tudo confortável.
 
 A pasta [`imagens/`](imagens/) guarda as figuras usadas nestes documentos.
+
+Os textos desta pasta estão sob a licença CC BY-NC-SA 4.0. Explicamos o que ela permite em [LICENCA-DOCUMENTACAO.md](LICENCA-DOCUMENTACAO.md).

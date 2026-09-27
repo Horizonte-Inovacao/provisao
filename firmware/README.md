@@ -29,3 +29,7 @@ Tudo o que é ajuste fica em `include/config.h`. Por exemplo, para o boné come�
 ## Verificação automática
 
 A cada alteração nesta pasta, o GitHub compila o programa sozinho (arquivo [`.github/workflows/firmware.yml`](../.github/workflows/firmware.yml)). Se a compilação falhar, a alteração aparece marcada com erro.
+
+## Licença
+
+O programa da V1.5 está sob a GNU GPL 3.0, com o texto completo em [`LICENSE`](LICENSE). A V1, guardada em `legado/`, continua sob a licença MIT com que foi publicada ([`legado/LICENSE-MIT`](legado/LICENSE-MIT)).

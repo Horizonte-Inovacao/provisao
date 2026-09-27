@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho, Nadson Alex da Silva
+# SPDX-License-Identifier: CERN-OHL-S-2.0
+
 """
 Checagens automáticas de montagem: interferência entre peças e componentes,
 sólidos válidos e espessuras mínimas nos pontos críticos.

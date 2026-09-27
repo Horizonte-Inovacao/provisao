@@ -15,6 +15,7 @@ Aqui contamos a linha do tempo da PróVisão, do primeiro diagnóstico até hoje
 - **Preparamos o pedido de impressão 3D** em dois lotes (um para testar os encaixes e o kit completo) e a lista de compras com as metragens de fio.
 - **Reorganizamos o repositório** com pastas em português e reescrevemos a documentação para ficar mais fácil de entender.
 - **Organizamos o acervo de fotos e vídeos** dos principais momentos do projeto: reduzimos as fotos, transformamos os vídeos em GIFs curtos e colocamos cada registro na sua data nesta linha do tempo.
+- **Revisamos as licenças.** Percebemos que as licenças escolhidas em julho deixavam qualquer pessoa copiar e vender o projeto. Optamos por licenças abertas e recíprocas (GPL 3.0 no programa, CERN-OHL-S 2.0 na eletrônica e nas peças, CC BY-NC-SA 4.0 na documentação), separamos um arquivo de licença por área e decidimos registrar as marcas no INPI ([decisão 006](documentacao/decisoes/006-licencas.md)).
 
 ### 17 de setembro de 2026: a PróVisão na feira de profissões
 

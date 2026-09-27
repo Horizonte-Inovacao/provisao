@@ -11,5 +11,6 @@ Fazemos isso por dois motivos. Primeiro, para quem chegar depois entender por qu
 | [003](003-bateria-14500.md) | Bateria 14500 com carcaça de aço no lugar da bateria mole | setembro de 2026 |
 | [004](004-pecas-3d-e-fixacao-no-bone.md) | Peças 3D desenhadas em código e fixação no tecido | setembro de 2026 |
 | [005](005-conforto-no-contato-com-a-cabeca.md) | Conforto no que encosta na cabeça | setembro de 2026 |
+| [006](006-licencas.md) | Licenças abertas e recíprocas, com proteção da marca | setembro de 2026 |
 
 Para registrar uma decisão nova, copie um arquivo existente, use o próximo número e mantenha as quatro partes: situação, contexto, decisão e consequências.

@@ -17,6 +17,8 @@ A PróVisão é um projeto aberto de tecnologia assistiva, mantido por três est
 5. Tomou uma decisão que muda o rumo do projeto? Registre em [`documentacao/decisoes/`](documentacao/decisoes/).
 6. Fotos de pessoas só entram no repositório com autorização de imagem assinada, sem exceção. Este projeto atende pessoas com deficiência visual e levamos a privacidade a sério, como pede a Lei Geral de Proteção de Dados.
 7. Segurança vem antes de funcionalidade nova: nada que comprometa o alerta ao usuário entra no produto.
+8. Ao enviar uma contribuição, você concorda em publicá-la sob a licença da pasta que ela altera: GNU GPL 3.0 no programa da placa, CERN-OHL-S 2.0 na eletrônica e nas peças 3D e CC BY-NC-SA 4.0 na documentação. O resumo está no [LICENSE](LICENSE).
+9. Arquivo novo de código começa com o aviso de autoria e licença no padrão SPDX, igual aos que já existem. Por exemplo, no programa da placa: `// SPDX-License-Identifier: GPL-3.0-only`.
 
 ## Como escrevemos
 
