@@ -4,8 +4,9 @@
 """
 Monta o pacote do pedido de impressão 3D a partir dos STL já gerados.
 
-    python3 gerar_pecas.py              # primeiro, gere os STL
-    python3 gerar_pedido_impressao.py   # depois, monte o pedido
+    python3 gerar_pecas.py                          # primeiro, gere os STL
+    python3 gerar_pedido_impressao.py               # depois, monte o pedido
+    python3 gerar_pedido_impressao.py --so-ficha    # refaz só a ficha em PDF
 
 Saída em ../pedido-de-impressao/:
   ficha-do-pedido.pdf                  ficha para o serviço de impressão
@@ -18,6 +19,7 @@ Precisa de: trimesh, vtk (vem com o cadquery) e reportlab.
 """
 import math
 import shutil
+import sys
 import tempfile
 from pathlib import Path
 
@@ -37,10 +39,10 @@ SAIDA = AQUI.parent / "pedido-de-impressao"
 # nome do arquivo, quantidade no kit, descrição, material, preenchimento (%), observação
 KIT = [
     ("A1_case_eletronica_corpo", 1, "Case da eletrônica", "PETG", 25, ""),
-    ("A2_case_eletronica_tampa", 1, "Tampa do case da eletrônica", "PETG", 25, "Já virada: face de fora na mesa"),
+    ("A2_case_eletronica_tampa", 1, "Tampa do case da eletrônica", "PETG", 25, "Face externa apoiada na mesa"),
     ("A3_case_eletronica_base_curva", 1, "Base curva do case da eletrônica", "PETG", 15, "Face plana na mesa"),
     ("A4_case_eletronica_placa_interna", 1, "Placa interna do case da eletrônica", "PETG", 25, "Placa fina (1,6 mm)"),
-    ("B1_case_bateria_corpo", 1, "Case da bateria", "PETG", 25, "Em pé, com brim de 5 mm"),
+    ("B1_case_bateria_corpo", 1, "Case da bateria", "PETG", 25, "Na vertical, com brim de 5 mm"),
     ("B2_case_bateria_tampa", 1, "Tampa do case da bateria", "PETG", 25, ""),
     ("B3_case_bateria_placa_interna", 1, "Placa interna do case da bateria", "PETG", 25, "Placa fina (1,6 mm)"),
     ("S1_suporte_sensor_esquerdo_00graus", 1, "Suporte do sensor esquerdo, 0 graus", "PETG", 25, ""),
@@ -49,9 +51,9 @@ KIT = [
     ("S1_suporte_sensor_direito_00graus", 1, "Suporte do sensor direito, 0 graus", "PETG", 25, ""),
     ("S1_suporte_sensor_direito_10graus", 1, "Suporte do sensor direito, 10 graus", "PETG", 25, ""),
     ("S1_suporte_sensor_direito_20graus", 1, "Suporte do sensor direito, 20 graus", "PETG", 25, ""),
-    ("S2_suporte_sensor_tampa", 2, "Tampinha do suporte do sensor", "PETG", 25, ""),
-    ("S3_suporte_sensor_placa_sob_aba", 2, "Plaquinha de baixo da aba (com porcas)", "PETG", 25, "Encaixes das porcas para cima"),
-    ("M1_berco_motor", 2, "Berço do motor de vibração", "TPU 95A", 25, "Plástico flexível"),
+    ("S2_suporte_sensor_tampa", 2, "Tampa do suporte do sensor", "PETG", 25, ""),
+    ("S3_suporte_sensor_placa_sob_aba", 2, "Placa inferior da aba (alojamento das porcas)", "PETG", 25, "Alojamentos das porcas voltados para cima"),
+    ("M1_berco_motor", 2, "Berço do motor de vibração", "TPU 95A", 25, "Material flexível"),
 ]
 LOTE1 = {"A1_case_eletronica_corpo": 1, "A2_case_eletronica_tampa": 1, "B1_case_bateria_corpo": 1,
          "B2_case_bateria_tampa": 1, "S1_suporte_sensor_direito_10graus": 1, "S2_suporte_sensor_tampa": 1,
@@ -156,7 +158,7 @@ def ficha(dados, destino, dir_min):
         c.drawString(15 * mm, h - 17.5 * mm, "Pedido de impressão 3D  ·  peças do boné")
         c.setFont("Helvetica", 8.5)
         c.drawRightString(w - 15 * mm, h - 12 * mm, "Horizonte Inovação Assistiva")
-        c.drawRightString(w - 15 * mm, h - 17.5 * mm, "Revisão 2  ·  27/09/2026")
+        c.drawRightString(w - 15 * mm, h - 17.5 * mm, "Revisão 3  ·  27/09/2026")
         c.setFillColor(CORAL)
         c.rect(0, h - 23.2 * mm, w, 1.2 * mm, stroke=0, fill=1)
         c.setFillColor(CINZA)
@@ -183,43 +185,47 @@ def ficha(dados, destino, dir_min):
 
     tot = {k: (sum(d[k] for d in dados), sum(d[k] * d["massa"] for d in dados)) for k in ("lote1", "qtd")}
 
-    S.append(Paragraph("Olá! Este é o nosso pedido", h1))
+    S.append(Paragraph("1. Objeto do pedido", h1))
     S.append(Paragraph(
-        "Somos a equipe da PróVisão, um boné que avisa pessoas com deficiência visual sobre obstáculos na altura da "
-        "cabeça. As peças abaixo prendem a eletrônica no boné. Separamos o pedido em dois lotes: primeiro queremos "
-        "conferir os encaixes com poucas peças, e depois imprimir o kit completo. Todas as peças foram desenhadas "
-        "para imprimir sem suporte.", base))
+        "Impressão 3D das peças estruturais da PróVisão V1.5, dispositivo assistivo em formato de boné que alerta "
+        "pessoas com deficiência visual sobre obstáculos na altura da cabeça. As peças fixam os componentes "
+        "eletrônicos ao boné. O pedido divide-se em dois lotes: o Lote 1 destina-se à verificação dos encaixes e o "
+        "Lote 2 corresponde ao conjunto completo de uma unidade. Todas as peças foram projetadas para impressão sem "
+        "estruturas de suporte.", base))
     S.append(Spacer(1, 6))
     campo = "_" * 58
     S.append(tabela_kv([
-        ("Quem está pedindo", campo),
+        ("Solicitante", campo),
         ("Contato (telefone ou e-mail)", campo),
-        ("Serviço de impressão", campo),
-        ("Prazo que precisamos", campo),
-        ("Cor do PETG", "____________________  (sugerimos preto ou petróleo, #1B6C79)"),
-        ("Lote pedido",
-         f"[   ]  Lote 1: teste de encaixe ({tot['lote1'][0]} peças, cerca de {tot['lote1'][1]:.0f} g)<br/>"
-         f"[   ]  Lote 2: kit completo de um boné ({tot['qtd'][0]} peças, cerca de {tot['qtd'][1]:.0f} g)"),
+        ("Prestador do serviço", campo),
+        ("Prazo de entrega", campo),
+        ("Cor do PETG", "____________________  (preferência: preto ou petróleo, #1B6C79)"),
+        ("Lote solicitado",
+         f"[   ]  Lote 1: verificação de encaixe ({tot['lote1'][0]} peças, aprox. {tot['lote1'][1]:.0f} g)<br/>"
+         f"[   ]  Lote 2: conjunto completo de uma unidade ({tot['qtd'][0]} peças, aprox. {tot['qtd'][1]:.0f} g)"),
     ]))
     S.append(Spacer(1, 8))
-    S.append(Paragraph("Como queremos as peças", h1))
+    S.append(Paragraph("2. Especificações de impressão", h1))
     S.append(tabela_kv([
-        ("Material", "<b>PETG</b> em quase tudo. Não usamos PLA porque a peça vai na cabeça, ao sol, e o PLA amolece com o calor. "
-                     "<b>TPU 95A</b> (plástico flexível) só no berço do motor, que encosta na nuca."),
-        ("Bico e altura de camada", "0,4 mm e 0,2 mm"),
-        ("Paredes", "<b>4 paredes</b>. É o que segura os parafusos de 2 mm e aguenta pancada."),
-        ("Topo e fundo", "5 camadas em cima e 4 embaixo"),
-        ("Preenchimento", "25% em padrão giroide. A base curva (A3) pode ser com 15%."),
-        ("Suporte", "<b>Nenhum.</b> Desenhamos todas as peças para imprimir sem suporte."),
-        ("Posição na mesa", "<b>Por favor, use a posição do arquivo.</b> Todas as peças já estão apoiadas do jeito certo. "
-                            "Não gire, principalmente a B1 (imprime em pé) e a A2 (imprime virada)."),
-        ("Adesão", "Borda de adesão (brim) de 5 mm só na <b>B1</b>, que é alta e estreita."),
-        ("Escala", "100%, em milímetros. Os arquivos 3MF já informam a unidade."),
-        ("Furos", "Por favor, não aplique compensação de furo. Os furos de 1,7 mm recebem parafuso de 2 mm direto no "
-                  "plástico. Se a impressora de vocês costuma fechar furos pequenos, avisem antes de imprimir."),
+        ("Material", "<b>PETG</b> nas peças estruturais. O PLA não é aceito, pois as peças ficam expostas ao sol e ao "
+                     "calor da cabeça, condição em que o PLA perde rigidez. <b>TPU 95A</b> (material flexível) somente "
+                     "no berço do motor (M1), que fica em contato com a nuca."),
+        ("Bico e altura de camada", "Bico de 0,4 mm e camada de 0,2 mm."),
+        ("Paredes", "<b>4 perímetros</b>, necessários para a fixação dos parafusos M2 e para a resistência a impactos."),
+        ("Topo e fundo", "5 camadas superiores e 4 inferiores."),
+        ("Preenchimento", "25%, padrão giroide. Na base curva (A3), admite-se 15%."),
+        ("Suporte", "<b>Não utilizar.</b> Todas as peças foram projetadas para impressão sem suporte."),
+        ("Orientação na mesa", "<b>Manter a orientação dos arquivos fornecidos</b>, que já corresponde à posição de "
+                               "impressão. Não rotacionar as peças, em especial a B1 (impressa na vertical) e a A2 "
+                               "(impressa invertida)."),
+        ("Adesão", "Borda de adesão (brim) de 5 mm somente na <b>B1</b>, devido à altura e à base estreita."),
+        ("Escala", "100%, em milímetros. A unidade está definida nos arquivos 3MF."),
+        ("Furos", "Não aplicar compensação de furos. Os furos de 1,7 mm recebem parafusos M2 diretamente no plástico. "
+                  "Caso o equipamento tenda a reduzir o diâmetro de furos pequenos, o solicitante deve ser consultado "
+                  "antes da impressão."),
     ]))
     S.append(Spacer(1, 8))
-    S.append(Paragraph("O que vai no pacote", h1))
+    S.append(Paragraph("3. Conteúdo do pacote", h1))
     S.append(Paragraph(
         "<font face='Courier' size='8'>"
         "ficha-do-pedido.pdf<br/>"
@@ -227,9 +233,9 @@ def ficha(dados, destino, dir_min):
         "lote-2-kit-completo/      kit_petg.3mf    kit_tpu.3mf    stl/</font>", base))
     S.append(Spacer(1, 4))
     S.append(Paragraph(
-        "Separamos os arquivos 3MF por material, com as cópias já distribuídas numa mesa de 235 x 235 mm. "
-        "Se preferirem montar a mesa do jeito de vocês, usem os STL da pasta <b>stl</b>: o número depois de "
-        "<b>_x</b> no nome do arquivo é a quantidade a imprimir.", base))
+        "Os arquivos 3MF estão separados por material, com as cópias distribuídas em uma mesa de 235 x 235 mm. "
+        "Para montagem própria da mesa, utilizar os arquivos STL da pasta <b>stl</b>. O número após <b>_x</b> no "
+        "nome do arquivo indica a quantidade a imprimir.", base))
 
     def tabela(chave):
         linhas = [[Paragraph(t, cab) for t in ("", "Arquivo e peça", "Qtd", "Medidas (mm)", "Material", "g/un.*", "Observação")]]
@@ -242,8 +248,8 @@ def ficha(dados, destino, dir_min):
             g += d["massa"] * q
             x, y, z = d["dims"]
             linhas.append([
-                Image(str(dir_min / f"{d['nome']}.png"), width=26 * mm, height=19.8 * mm),
-                Paragraph(f"<b>{d['nome']}_x{q}.stl</b><br/><font color='#5A6470'>{d['desc']}</font>", peq),
+                Image(str(dir_min / f"{d['nome']}.png"), width=23 * mm, height=17.5 * mm),
+                Paragraph(f"<font size='7.2'><b>{d['nome']}_x{q}.stl</b></font><br/><font color='#5A6470'>{d['desc']}</font>", peq),
                 Paragraph(f"<b>{q}</b>", centro),
                 Paragraph(f"{x:.0f} x {y:.0f} x " + (f"{z:.1f}".replace(".", ",") if z < 10 else f"{z:.0f}"), peq),
                 Paragraph(d["material"], peq),
@@ -252,7 +258,7 @@ def ficha(dados, destino, dir_min):
             ])
         linhas.append(["", Paragraph("<b>Total</b>", peq), Paragraph(f"<b>{n}</b>", centro), "", "",
                        Paragraph(f"<b>~{g:.0f} g</b>", peq), ""])
-        t = Table(linhas, colWidths=[27 * mm, 60 * mm, 10 * mm, 23 * mm, 16 * mm, 14 * mm, W - 150 * mm], repeatRows=1)
+        t = Table(linhas, colWidths=[24 * mm, 63 * mm, 10 * mm, 22 * mm, 16 * mm, 14 * mm, W - 149 * mm], repeatRows=1)
         t.setStyle(TableStyle([
             ("BACKGROUND", (0, 0), (-1, 0), PET), ("BACKGROUND", (0, -1), (-1, -1), colors.HexColor("#FBEDE8")),
             ("LINEBELOW", (0, 0), (-1, -1), 0.4, LINHA), ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
@@ -260,47 +266,49 @@ def ficha(dados, destino, dir_min):
         return t
 
     S.append(PageBreak())
-    S.append(Paragraph("Lote 1: teste de encaixe", h1))
+    S.append(Paragraph("4. Lote 1: verificação de encaixe", h1))
     S.append(Paragraph(
-        "É o primeiro pedido. Com essas peças vamos conferir, com os componentes reais na mão, se a placa, o carregador, "
-        "a bateria, o sensor e o motor encaixam direito antes de imprimir o conjunto inteiro. As peças curvas que "
-        "dependem da medida do boné (bases curvas e placas internas) ficam para o lote 2.", base))
+        "Primeira etapa do pedido. Este lote permite verificar, com os componentes reais, o encaixe da placa, do "
+        "carregador, da bateria, do sensor e do motor antes da impressão do conjunto completo. As peças curvas que "
+        "dependem das dimensões do boné (base curva e placas internas) constam apenas do Lote 2.", base))
     S.append(Spacer(1, 6))
     S.append(tabela("lote1"))
-    S.append(Paragraph("* Peso estimado com a configuração desta ficha. O valor final depende do programa de fatiamento.", peqc))
+    S.append(Paragraph("* Massa estimada com os parâmetros desta ficha. O valor final depende do programa de fatiamento.", peqc))
 
     S.append(PageBreak())
-    S.append(Paragraph("Lote 2: kit completo de um boné", h1))
+    S.append(Paragraph("5. Lote 2: conjunto completo de uma unidade", h1))
     S.append(Paragraph(
-        "Todas as peças de uma PróVisão. Os suportes dos sensores vão nas três inclinações (0, 10 e 20 graus) porque "
-        "vamos escolher a melhor no primeiro teste, com o boné na cabeça.", base))
+        "Todas as peças de uma unidade da PróVisão. Os suportes dos sensores são fornecidos nas três inclinações "
+        "(0, 10 e 20 graus). A inclinação definitiva será escolhida no primeiro teste com o boné em uso.", base))
     S.append(Spacer(1, 6))
     S.append(tabela("qtd"))
-    S.append(Paragraph("* Peso estimado com a configuração desta ficha. O valor final depende do programa de fatiamento.", peqc))
+    S.append(Paragraph("* Massa estimada com os parâmetros desta ficha. O valor final depende do programa de fatiamento.", peqc))
 
     S.append(Spacer(1, 10))
-    bloco = [Paragraph("Como vamos conferir na entrega", h1)]
+    bloco = [Paragraph("6. Critérios de aceitação na entrega", h1)]
     for txt in [
-        "Nenhum resto de plástico dentro dos cases, dos furos e dos recortes (entrada USB-C, chave e entalhes dos cabos).",
-        "Furos de 1,7 mm e de 2,3 mm abertos de ponta a ponta onde atravessam a peça.",
-        "Base das peças plana, sem empenar. A base curva e o case A precisam assentar um no outro sem balançar.",
-        "Camadas bem grudadas, principalmente na B1 (impressa em pé) e nas colunas da tampa A2.",
-        "Texto em baixo relevo legível na tampa A2 e as marcas + e - na lateral da B1.",
-        "Berços dos motores em TPU, flexíveis e sem fiapos.",
-        "Por favor, não lixem, furem ou colem nada sem falar com a gente antes: as folgas foram calculadas para a peça como sai da impressora.",
+        "Ausência de resíduos de material no interior dos cases, dos furos e dos recortes (entrada USB-C, chave e entalhes dos cabos).",
+        "Furos de 1,7 mm e de 2,3 mm desobstruídos em toda a extensão, nos pontos em que atravessam a peça.",
+        "Bases planas, sem empenamento. A base curva (A3) e o case da eletrônica (A1) devem assentar um sobre o outro sem folga.",
+        "Boa adesão entre camadas, em especial na B1 (impressa na vertical) e nas colunas da tampa A2.",
+        "Texto em baixo relevo legível na tampa A2 e marcações + e - legíveis na lateral da B1.",
+        "Berços dos motores em TPU flexíveis e sem fiapos.",
+        "Nenhuma peça deve ser lixada, furada ou colada sem consulta prévia ao solicitante, pois as folgas foram dimensionadas para a peça no estado em que sai da impressora.",
     ]:
         bloco.append(Paragraph(txt, bul, bulletText="•"))
     bloco.append(Spacer(1, 6))
-    bloco.append(Paragraph("Obrigado! Qualquer dúvida sobre as peças, é só chamar a equipe pelo contato acima.", base))
+    bloco.append(Paragraph("Dúvidas técnicas sobre as peças devem ser encaminhadas ao contato indicado na página 1.", base))
     S.append(KeepTogether(bloco))
     doc.build(S)
 
 
 # ------------------------------------------------------------------ principal
 def main():
-    if SAIDA.exists():
-        shutil.rmtree(SAIDA)
-    SAIDA.mkdir(parents=True)
+    so_ficha = "--so-ficha" in sys.argv
+    if not so_ficha:
+        if SAIDA.exists():
+            shutil.rmtree(SAIDA)
+        SAIDA.mkdir(parents=True)
     dir_min = Path(tempfile.mkdtemp())
     dados = []
     for nome, qtd, desc, material, preench, obs in KIT:
@@ -311,6 +319,12 @@ def main():
         dados.append(dict(nome=nome, qtd=qtd, desc=desc, material=material, obs=obs,
                           dims=[float(v) for v in m.extents], massa=massa(m, material, preench),
                           lote1=LOTE1.get(nome, 0)))
+
+    if so_ficha:
+        SAIDA.mkdir(parents=True, exist_ok=True)
+        ficha(dados, SAIDA / "ficha-do-pedido.pdf", dir_min)
+        print("ok: ficha refeita, arquivos 3MF e STL mantidos")
+        return
 
     for pasta, prefixo, chave in (("lote-1-teste-de-encaixe", "lote1", "lote1"),
                                   ("lote-2-kit-completo", "kit", "qtd")):
