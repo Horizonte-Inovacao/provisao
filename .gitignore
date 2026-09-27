@@ -1,12 +1,16 @@
-# PlatformIO
+# PlatformIO (ferramenta que compila o programa da placa)
 firmware/.pio/
 firmware/.vscode/
 
-# Binários de build (publicamos via Releases, não no histórico)
+# Arquivos gerados na compilação (publicamos pela aba Releases do GitHub, não no histórico)
 *.bin
 *.elf
 
-# CAD — arquivos temporários e backups
+# Python (código da modelagem 3D)
+__pycache__/
+*.pyc
+
+# Arquivos temporários e cópias de segurança de programas de 3D
 *.FCBak
 *.FCStd1
 *~
@@ -16,5 +20,8 @@ firmware/.vscode/
 Thumbs.db
 desktop.ini
 
-# Mídias brutas pesadas (os arquivos finais comprimidos ficam em media/ e docs/assets/)
-media/brutas/
+# Fotos e vídeos originais, pesados (as versões reduzidas ficam em fotos-e-videos/ e documentacao/imagens/)
+fotos-e-videos/originais/
+
+# Cópias que o aplicativo do Claude salva quando envia arquivos pelo chat
+Claude outputs/

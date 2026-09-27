@@ -1,22 +1,41 @@
-MIT License
+Licenças da PróVisão
 
-Copyright (c) 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho,
-Nadson Alex da Silva — Horizonte Inovação Assistiva
+Copyright (c) 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho, Nadson Alex da Silva,
+equipe da Horizonte Inovação Assistiva.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Este repositório reúne três tipos de obra, e cada um tem a sua licença.
+O texto completo de cada licença fica junto da parte a que ela se aplica.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Programa da placa: pasta firmware/ e a verificação automática em .github/
+   Licença: GNU General Public License, versão 3 (GPL-3.0-only)
+   Texto completo: firmware/LICENSE
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. Eletrônica e peças 3D: pastas eletronica/ e modelagem-3d/
+   Licença: CERN Open Hardware Licence v2, Strongly Reciprocal (CERN-OHL-S-2.0)
+   Texto completo: eletronica/LICENCA-HARDWARE.md
+
+3. Documentação, fotos e vídeos: pastas documentacao/ e fotos-e-videos/ e os
+   arquivos README.md, HISTORICO.md e CONTRIBUTING.md da raiz
+   Licença: Creative Commons Atribuição-NãoComercial-CompartilhaIgual 4.0
+   Internacional (CC-BY-NC-SA-4.0)
+   Texto completo: documentacao/LICENCA-DOCUMENTACAO.md
+
+Exceções
+
+- firmware/legado/viseira_v1.cpp continua sob a licença MIT, a mesma com que
+  foi publicado em julho de 2026. O texto está em firmware/legado/LICENSE-MIT.
+- O logo (fotos-e-videos/logo-horizonte.png) e os nomes PróVisão e Horizonte
+  Inovação Assistiva não estão sob nenhuma dessas licenças: todos os direitos
+  reservados.
+- A licença das fotos e dos vídeos cobre o direito autoral, não a imagem das
+  pessoas que aparecem neles. Para reutilizar uma foto com pessoas, é preciso
+  a autorização delas.
+
+Versões anteriores
+
+As versões publicadas antes desta mudança, a partir de 16 de julho de 2026,
+saíram sob MIT (programa), CERN-OHL-P-2.0 (eletrônica) e CC-BY-SA-4.0
+(documentação). Quem obteve aquelas versões continua podendo usá-las nas
+condições daquelas licenças. As licenças acima valem desta versão em diante.
+
+O motivo da escolha está em documentacao/decisoes/006-licencas.md.

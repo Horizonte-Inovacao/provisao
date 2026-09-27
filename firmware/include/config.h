@@ -1,5 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho, Nadson Alex da Silva
+// SPDX-License-Identifier: GPL-3.0-only
 // ============================================================
-// PróVisão — configuração central do firmware
+// PróVisão · configuração central do firmware
 // Tudo que é ajuste de calibração fica aqui. A lógica não
 // precisa ser tocada para mudar pino, distância ou intensidade.
 // ============================================================

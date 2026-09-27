@@ -1,5 +1,7 @@
+// SPDX-FileCopyrightText: 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho, Nadson Alex da Silva
+// SPDX-License-Identifier: MIT
 // ============================================================
-// PróVisão — firmware V1 (2026.1) — PRESERVADO COMO HISTÓRICO
+// PróVisão · firmware V1 (2026.1) · PRESERVADO COMO HISTÓRICO
 // Esta é a versão apresentada na disciplina e demonstrada à
 // ACACE, exatamente como rodou na protoboard. Não usar em
 // builds novos: a V1.5 (firmware/src/) corrige a sobretensão

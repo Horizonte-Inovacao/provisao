@@ -1,4 +1,7 @@
-# CI — compila o firmware a cada push/PR que tocar em firmware/.
+# SPDX-FileCopyrightText: 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho, Nadson Alex da Silva
+# SPDX-License-Identifier: GPL-3.0-only
+
+# Verificação automática: compila o firmware a cada envio ou pedido de alteração que mexer em firmware/.
 # O badge de status entra no README quando o repositório for publicado.
 name: Firmware
 

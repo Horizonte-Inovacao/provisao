@@ -5,121 +5,138 @@
 
 # PróVisão
 
-**Transformando o desafio em solução** — uma viseira que avisa, por vibração, o que a bengala branca não alcança.
+**Transformando o desafio em solução.** Um boné que avisa, por vibração, o que a bengala branca não alcança.
 
 ![Status](https://img.shields.io/badge/status-prot%C3%B3tipo%20V1.5-EBA84C)
-![Firmware](https://img.shields.io/badge/firmware-MIT-1B6C79)
-![Hardware](https://img.shields.io/badge/hardware-CERN--OHL--P%202.0-1B6C79)
+![Firmware](https://img.shields.io/badge/firmware-GPL--3.0-1B6C79)
+![Hardware](https://img.shields.io/badge/hardware-CERN--OHL--S%202.0-1B6C79)
+![Documentação](https://img.shields.io/badge/documenta%C3%A7%C3%A3o-CC%20BY--NC--SA%204.0-1B6C79)
 ![Feito em](https://img.shields.io/badge/feito%20em-Caruaru--PE-E07A5F)
 
 <p align="center">
-  <!-- [MÍDIA] Foto ou GIF principal: o protótipo em uso durante a apresentação em sala.
-       Salvar em docs/assets/prototipo-em-uso.jpg e descomentar a linha abaixo. -->
-  <!-- <img src="docs/assets/prototipo-em-uso.jpg" alt="Protótipo PróVisão em uso durante a apresentação" width="600"> -->
-  <em>(espaço reservado para a foto principal do protótipo em uso)</em>
+  <img src="modelagem-3d/imagens/montagem_01_frente_esquerda.png" alt="Modelo 3D do boné da PróVisão com todas as peças montadas: os dois sensores na aba e os cases da eletrônica e da bateria nas laterais" width="440">
+  <img src="documentacao/imagens/prototipo-em-uso.jpg" alt="Integrante da equipe sentado usando o protótipo V1 da PróVisão: uma viseira azul e laranja com os dois sensores e a fiação presos na aba" width="176">
+  <br><em>À esquerda, o modelo 3D da versão 1.5, com tudo montado no boné. À direita, o protótipo V1 na viseira, em uso na apresentação da disciplina (maio de 2026). Quando o boné real ficar pronto, a foto dele entra no lugar do modelo 3D.</em>
 </p>
 
 ## Por que criamos a PróVisão
 
-A bengala branca é uma ferramenta excelente para rastrear o chão, mas não protege o que está na altura do tronco e da cabeça: galhos de árvore, placas de sinalização, orelhões, lixeiras suspensas. Quem convive com deficiência visual conhece bem o risco dessas colisões.
+A bengala branca é ótima para explorar o chão, mas não protege o que está na altura do peito e da cabeça: galhos de árvore, placas de sinalização, orelhões, lixeiras penduradas. Quem convive com deficiência visual conhece bem o risco dessas batidas.
 
-A PróVisão é a nossa resposta: uma viseira comum com dois sensores de distância a laser na aba. Quando um obstáculo aéreo se aproxima, a viseira vibra  mais forte quanto mais perto, e do lado onde o obstáculo está. Se a proximidade fica crítica, um alerta sonoro dispara. Obstáculo à direita, vibração à direita: o usuário ganha noção de direção, não só de perigo.
+A PróVisão é a nossa resposta. Colocamos dois sensores de distância a laser na aba de um boné comum. Quando um obstáculo alto se aproxima, o boné vibra perto da nuca, mais forte quanto mais perto ele está e do lado em que ele está. Se a distância fica perigosa, um bipe toca. Obstáculo à direita, vibração à direita: a pessoa ganha noção de direção, não só de perigo.
 
-Tudo isso com componentes que custam cerca de R$ 150, enquanto soluções importadas equivalentes chegam a custar dez vezes mais. Acreditamos que tecnologia assistiva precisa ser acessível também no preço.
+Na primeira versão usamos uma viseira. Trocamos pelo boné porque ele é um objeto do dia a dia: quem usa a PróVisão não precisa andar com algo que tenha cara de equipamento.
 
-> **Importante:** a PróVisão é um **complemento** à bengala branca, nunca um substituto. É um protótipo experimental em validação, para mais informações, leia [docs/seguranca.md](docs/seguranca.md) antes de qualquer uso.
+Os componentes eletrônicos custam cerca de R$ 150, enquanto soluções importadas parecidas chegam a custar dez vezes mais. Acreditamos que tecnologia assistiva precisa ser acessível também no preço.
+
+> **Importante:** a PróVisão **complementa** a bengala branca, nunca substitui. É um protótipo experimental em fase de validação. Antes de qualquer uso, leia [documentacao/seguranca.md](documentacao/seguranca.md).
 
 ## Como funciona
 
 ```mermaid
 flowchart LR
-    subgraph Entrada
-        SE["Sensor ToF esquerdo<br/>VL53L0X"]
-        SD["Sensor ToF direito<br/>VL53L0X"]
+    subgraph Aba do boné
+        SE["Sensor a laser esquerdo"]
+        SD["Sensor a laser direito"]
     end
-    MCU["ESP32-C3 Super Mini<br/>(lógica de alerta)"]
-    subgraph Saida["Saída"]
-        ME["Vibracall esquerdo"]
-        MD["Vibracall direito"]
-        BZ["Buzzer<br/>(proximidade crítica)"]
+    MCU["Placa ESP32-C3<br/>(decide o alerta)"]
+    subgraph Perto da nuca
+        ME["Motor de vibração esquerdo"]
+        MD["Motor de vibração direito"]
     end
+    BZ["Bipe<br/>(distância perigosa)"]
     subgraph Energia
-        BAT["Li-Po 3,7 V"] --> CH["Chave liga/desliga"]
-        TP["Carregador TP4056"] --> BAT
+        BAT["Bateria 14500<br/>com proteção"] --> CARR["Carregador<br/>USB-C"]
+        CARR --> CH["Chave<br/>liga/desliga"]
     end
-    SE -- "I²C" --> MCU
-    SD -- "I²C" --> MCU
-    MCU -- "PWM" --> ME
-    MCU -- "PWM" --> MD
+    SE --> MCU
+    SD --> MCU
+    MCU --> ME
+    MCU --> MD
     MCU --> BZ
     CH --> MCU
 ```
 
-Os sensores medem a distância por tempo de voo da luz infravermelha (até ~2 m em ambiente interno, com resolução de milímetros). O firmware converte a distância em três níveis de vibração e aciona o buzzer abaixo de 30 cm.
+Cada sensor mede a distância pelo tempo que um feixe de luz infravermelha leva para ir até o obstáculo e voltar. Ele alcança cerca de 2 metros em ambiente fechado, com precisão de milímetros. A placa transforma essa distância em três níveis de vibração e toca o bipe abaixo de 30 cm. Explicamos cada parte, com calma, em [documentacao/como-funciona.md](documentacao/como-funciona.md).
 
 ## O que tem neste repositório
 
-| Pasta | Conteúdo |
+| Pasta | O que você encontra |
 |---|---|
-| [`firmware/`](firmware/) | Código do ESP32-C3 |
-| [`hardware/`](hardware/) | Esquema elétrico e lista de materiais com custos |
-| [`enclosure/`](enclosure/) | Modelos 3D do case (CAD fonte + STL para impressão) |
-| [`docs/`](docs/) | Arquitetura, decisões de engenharia , protocolo de testes e segurança |
-| [`media/`](media/) | Fotos e vídeos do desenvolvimento e dos testes |
+| [`firmware/`](firmware/) | O programa que roda na placa ESP32-C3 |
+| [`eletronica/`](eletronica/) | Esquema de ligações e lista de materiais |
+| [`modelagem-3d/`](modelagem-3d/) | Peças impressas em 3D, o boné montado e o pedido de impressão |
+| [`documentacao/`](documentacao/) | Como funciona, segurança, roteiro de testes e as decisões que tomamos |
+| [`fotos-e-videos/`](fotos-e-videos/) | Registro do desenvolvimento e dos testes |
+| [`HISTORICO.md`](HISTORICO.md) | A linha do tempo do projeto, do diagnóstico até hoje |
 
-## Estado atual e roadmap
+Mantivemos três nomes em inglês de propósito. `README.md`, `LICENSE` e `CONTRIBUTING.md` são nomes que o GitHub reconhece e exibe em destaque. E a pasta `firmware/` guarda as subpastas `src/` e `include/`, que a ferramenta de compilação (PlatformIO) exige com esses nomes.
 
-| Versão | O que é | Status |
+## Onde estamos e para onde vamos
+
+| Versão | O que é | Situação |
 |---|---|---|
-| V1 | Protótipo em protoboard, validado em sala de aula (nota máxima na disciplina) e apresentado à ACACE | Concluída |
-| **V1.5** | Placa soldada + case impresso em 3D + correções de segurança elétrica, para o teste de campo com usuários reais | **Em construção** |
-| V2 | PCB dedicada (KiCad) + firmware refatorado com suporte a telemetria | Planejada |
-| V3 | Sensoriamento para ambientes externos (sol direto) + telemetria via BLE | Futuro |
+| V1 | Protótipo em placa de testes, preso numa viseira. Validado em sala (nota máxima na disciplina) e apresentado à ACACE | Concluída |
+| **V1.5** | Boné com placa soldada, peças impressas em 3D, bateria mais segura e motores na nuca, pronto para o teste de campo com usuários | **Em construção** |
+| V2 | Placa de circuito própria, bem menor, e programa preparado para registrar dados de uso | Planejada |
+| V3 | Sensores que funcionem bem sob sol direto e envio de dados por Bluetooth | Futuro |
 
-O roadmap detalhado e as discussões ficam nas [Issues](../../issues).
+As discussões do dia a dia ficam nas [Issues](../../issues).
 
-## Como compilar e gravar
+## Como gravar o programa na placa
 
 ```bash
 git clone https://github.com/Horizonte-Inovacao/provisao.git
 cd provisao/firmware
 pio run                 # compila
-pio run -t upload       # grava no ESP32-C3 via USB-C
-pio device monitor      # abre o monitor serial (115200)
+pio run -t upload       # grava no ESP32-C3 pelo cabo USB-C
+pio device monitor      # mostra as mensagens da placa no computador
 ```
 
-Os pinos, limiares de distância e níveis de vibração ficam todos em [`firmware/include/config.h`](firmware/include/config.h) — dá para ajustar sem tocar na lógica.
+Antes de gravar, desligue a chave do boné. O motivo está em [documentacao/seguranca.md](documentacao/seguranca.md).
 
-## Hardware em resumo
+Todos os ajustes (pinos, distâncias, força da vibração) ficam em [`firmware/include/config.h`](firmware/include/config.h). Dá para calibrar o boné sem mexer na lógica do programa.
 
-ESP32-C3 Super Mini · 2× VL53L0X (I²C, endereços 0x30/0x29 via XSHUT) · 2× micro motores vibracall · buzzer ativo · Li-Po 3,7 V 300 mAh com carregador TP4056 (corrente de carga ajustada para a célula). Esquema completo em [`hardware/esquematico/`](hardware/esquematico/) e lista de materiais com custos em [`hardware/bom/BOM.csv`](hardware/bom/BOM.csv).
+## A eletrônica em resumo
+
+Uma placa ESP32-C3 Super Mini, dois sensores de distância a laser VL53L0X, dois motores de vibração tipo moeda, um bipe, uma bateria 14500 de 3,7 V com proteção e um carregador USB-C. O esquema completo está em [`eletronica/esquema-eletrico.md`](eletronica/esquema-eletrico.md) e tudo o que precisa ser comprado está em [`eletronica/lista-de-materiais.csv`](eletronica/lista-de-materiais.csv).
 
 ## Registro em imagens
 
-<!-- [MÍDIA] Preencher a tabela abaixo conforme as mídias forem organizadas em media/ e docs/assets/ -->
+O acervo completo, com os arquivos já reduzidos, fica em [`fotos-e-videos/`](fotos-e-videos/). Os GIFs não têm som, por isso escolhemos trechos que se explicam só com a imagem.
 
 | Momento | Mídia |
 |---|---|
-| Apresentação em sala (2026.1) | *(espaço reservado — foto da banca/apresentação)* |
-| Colegas operando o dispositivo | *(espaço reservado — vídeo ou GIF)* |
-| Bancada: protótipo V1 na protoboard | *(espaço reservado — foto)* |
-| Visita à ACACE | *(espaço reservado — foto, mediante autorização de imagem)* |
+| Primeiro teste da lógica, no simulador (março de 2026) | <img src="fotos-e-videos/2026-03-simulacao-ultrassom-circuito.gif" alt="GIF sem som: simulação no computador de uma placa Arduino Uno ligada a dois sensores ultrassônicos e a um bipe. Um cone azul mostra o sensor da direita detectando um obstáculo virtual" width="320"> |
+| Bancada: protótipo V1 na placa de testes (abril de 2026) | <img src="fotos-e-videos/2026-04-montagem-v1-protoboard.jpg" alt="Foto de cima da bancada: placa ESP32-C3 e fios coloridos numa placa de testes, com os dois sensores a laser roxos ao lado, sobre um mouse pad com mapa-múndi" width="180"> |
+| Primeira reunião com a ACACE (abril de 2026) | <img src="fotos-e-videos/2026-04-primeira-reuniao-acace.jpg" alt="Selfie numa sala da ACACE: dois integrantes da equipe em pé, um deles segurando um documento, e o presidente e a vice-presidente da associação sentados à mesa" width="320"> |
+| Apresentação em sala (maio de 2026, nota máxima) | <img src="fotos-e-videos/2026-05-apresentacao-disciplina-avaliacao.gif" alt="GIF sem som: na sala de aula, um integrante sentado usa a viseira com os sensores enquanto outro explica o funcionamento e aponta para a aba. Outras duas pessoas acompanham em pé" width="320"> |
+| O protótipo V1 em uso, com a mão no papel do obstáculo (maio de 2026) | <img src="documentacao/imagens/demo.gif" alt="GIF sem som: um integrante sentado usa a viseira com os sensores enquanto outro aproxima a mão aberta dos lados da cabeça dele, simulando um obstáculo na altura da cabeça" width="180"> |
+| Palestra na feira de profissões da faculdade (17 de setembro de 2026) | <img src="fotos-e-videos/2026-09-17-feira-profissoes-palestra-01.jpg" alt="Laboratório de informática com estudantes sentados nos computadores assistindo à palestra. À esquerda, um integrante da equipe fala em pé, ao lado do notebook e do protótipo V1 sobre a mesa" width="320"> |
 
-## Origem do projeto
+## Como o projeto começou
 
-A PróVisão nasceu em 2026.1 como projeto de extensão da disciplina de Programação de Microcontroladores (Centro Universitário UniFavip Wyden, Caruaru-PE), orientada pelo Prof. Rodrigo Frutuoso Lopes, em parceria com a **ACACE — Associação Caruaruense de Cegos e Amblíopes**. A escuta dos associados da ACACE definiu decisões centrais do produto, como a preferência pela vibração direcional. Hoje o projeto é mantido pelo grupo como o primeiro produto da **Horizonte Inovação Assistiva**.
+A PróVisão nasceu em 2026.1 como projeto de extensão da disciplina de Programação de Microcontroladores do Centro Universitário UniFavip Wyden, em Caruaru-PE, com orientação do Prof. Rodrigo Frutuoso Lopes e em parceria com a **ACACE (Associação Caruaruense de Cegos e Amblíopes)**. Foi ouvindo os associados da ACACE que tomamos as decisões mais importantes do produto, como avisar o lado do obstáculo pela vibração. Hoje mantemos o projeto como o primeiro produto da **Horizonte Inovação Assistiva**.
 
 ## Equipe
 
 | | |
 |---|---|
-| **Edson Gabriel Soares da Fonseca** | Arquitetura de software embarcado e Tech Lead |
-| **Nadson Alex da Silva** | Hardware e prototipagem física |
-| **João Luiz Pereira Filho** | Articulação institucional, QA e validação de campo |
+| **Edson Gabriel Soares da Fonseca** | Programa da placa e liderança técnica |
+| **Nadson Alex da Silva** | Eletrônica e protótipo físico |
+| **João Luiz Pereira Filho** | Relação com as instituições, qualidade e testes de campo |
 
 ## Licenças
 
-Firmware sob [MIT](LICENSE) · Hardware sob [CERN-OHL-P 2.0](hardware/LICENSE.md) · Documentação sob [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.pt-br).
+A PróVisão é aberta e recíproca: qualquer pessoa pode estudar, usar e adaptar o projeto, mas quem distribuir uma versão modificada precisa publicar as próprias melhorias sob a mesma licença e manter o nosso crédito. Contamos por que escolhemos esse caminho na [decisão 006](documentacao/decisoes/006-licencas.md).
+
+| Parte do projeto | Licença | Texto completo |
+|---|---|---|
+| Programa da placa (`firmware/`) | GNU GPL 3.0 | [`firmware/LICENSE`](firmware/LICENSE) |
+| Eletrônica e peças 3D (`eletronica/`, `modelagem-3d/`) | CERN-OHL-S 2.0 | [`eletronica/LICENCA-HARDWARE.md`](eletronica/LICENCA-HARDWARE.md) |
+| Documentação, fotos e vídeos | CC BY-NC-SA 4.0 (sem uso comercial) | [`documentacao/LICENCA-DOCUMENTACAO.md`](documentacao/LICENCA-DOCUMENTACAO.md) |
+
+O resumo de tudo, com as exceções, está no [`LICENSE`](LICENSE). Os nomes PróVisão e Horizonte Inovação Assistiva e o logo não fazem parte dessas licenças. As versões publicadas antes de setembro de 2026 saíram sob MIT, CERN-OHL-P 2.0 e CC BY-SA 4.0 e continuam valendo nessas condições para quem as obteve.
 
 ---
 
