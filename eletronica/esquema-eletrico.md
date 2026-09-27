@@ -87,4 +87,10 @@ Queremos que o boné avise a carga da bateria por vibração ao ligar. Para isso
 
 A entrada USB-C da própria placa ESP32-C3 fica fechada dentro do case. Com a chave ligada, a energia do cabo USB encontra a linha da bateria. Grave o programa só com a chave desligada ou com a bateria desconectada.
 
-<!-- [MÍDIA] adicionar foto da montagem na placa de testes (V1) e, quando pronta, foto da placa soldada (V1.5) -->
+## Registro da montagem
+
+<img src="../fotos-e-videos/2026-04-montagem-v1-protoboard.jpg" alt="Foto de cima da bancada: placa ESP32-C3 e fios coloridos numa placa de testes, com os dois sensores a laser roxos ao lado, sobre um mouse pad com mapa-múndi" width="300">
+
+*A montagem da V1 na placa de testes, em abril de 2026. Na V1.5, essa montagem dá lugar a uma placa soldada.*
+
+<!-- [MÍDIA] adicionar a foto da placa soldada da V1.5 quando estiver pronta -->

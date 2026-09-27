@@ -13,8 +13,9 @@
 ![Feito em](https://img.shields.io/badge/feito%20em-Caruaru--PE-E07A5F)
 
 <p align="center">
-  <img src="modelagem-3d/imagens/montagem_01_frente_esquerda.png" alt="Modelo 3D do boné da PróVisão com todas as peças montadas" width="600">
-  <br><em>Modelo 3D da versão 1.5, com tudo montado no boné. A foto do protótipo real entra aqui assim que ele estiver pronto.</em>
+  <img src="modelagem-3d/imagens/montagem_01_frente_esquerda.png" alt="Modelo 3D do boné da PróVisão com todas as peças montadas: os dois sensores na aba e os cases da eletrônica e da bateria nas laterais" width="440">
+  <img src="documentacao/imagens/prototipo-em-uso.jpg" alt="Integrante da equipe sentado usando o protótipo V1 da PróVisão: uma viseira azul e laranja com os dois sensores e a fiação presos na aba" width="176">
+  <br><em>À esquerda, o modelo 3D da versão 1.5, com tudo montado no boné. À direita, o protótipo V1 na viseira, em uso na apresentação da disciplina (maio de 2026). Quando o boné real ficar pronto, a foto dele entra no lugar do modelo 3D.</em>
 </p>
 
 ## Por que criamos a PróVisão
@@ -101,14 +102,16 @@ Uma placa ESP32-C3 Super Mini, dois sensores de distância a laser VL53L0X, dois
 
 ## Registro em imagens
 
-<!-- [MÍDIA] Preencher a tabela abaixo conforme as mídias forem organizadas em fotos-e-videos/ e documentacao/imagens/ -->
+O acervo completo, com os arquivos já reduzidos, fica em [`fotos-e-videos/`](fotos-e-videos/). Os GIFs não têm som, por isso escolhemos trechos que se explicam só com a imagem.
 
 | Momento | Mídia |
 |---|---|
-| Apresentação em sala (2026.1) | *(espaço reservado: foto da apresentação)* |
-| Colegas usando o dispositivo | *(espaço reservado: vídeo ou GIF)* |
-| Bancada: protótipo V1 na placa de testes | *(espaço reservado: foto)* |
-| Visita à ACACE | *(espaço reservado: foto, só com autorização de imagem)* |
+| Primeiro teste da lógica, no simulador (março de 2026) | <img src="fotos-e-videos/2026-03-simulacao-ultrassom-circuito.gif" alt="GIF sem som: simulação no computador de uma placa Arduino Uno ligada a dois sensores ultrassônicos e a um bipe. Um cone azul mostra o sensor da direita detectando um obstáculo virtual" width="320"> |
+| Bancada: protótipo V1 na placa de testes (abril de 2026) | <img src="fotos-e-videos/2026-04-montagem-v1-protoboard.jpg" alt="Foto de cima da bancada: placa ESP32-C3 e fios coloridos numa placa de testes, com os dois sensores a laser roxos ao lado, sobre um mouse pad com mapa-múndi" width="180"> |
+| Primeira reunião com a ACACE (abril de 2026) | <img src="fotos-e-videos/2026-04-primeira-reuniao-acace.jpg" alt="Selfie numa sala da ACACE: dois integrantes da equipe em pé, um deles segurando um documento, e o presidente e a vice-presidente da associação sentados à mesa" width="320"> |
+| Apresentação em sala (maio de 2026, nota máxima) | <img src="fotos-e-videos/2026-05-apresentacao-disciplina-avaliacao.gif" alt="GIF sem som: na sala de aula, um integrante sentado usa a viseira com os sensores enquanto outro explica o funcionamento e aponta para a aba. Outras duas pessoas acompanham em pé" width="320"> |
+| O protótipo V1 em uso, com a mão no papel do obstáculo (maio de 2026) | <img src="documentacao/imagens/demo.gif" alt="GIF sem som: um integrante sentado usa a viseira com os sensores enquanto outro aproxima a mão aberta dos lados da cabeça dele, simulando um obstáculo na altura da cabeça" width="180"> |
+| Palestra na feira de profissões da faculdade (17 de setembro de 2026) | <img src="fotos-e-videos/2026-09-17-feira-profissoes-palestra-01.jpg" alt="Laboratório de informática com estudantes sentados nos computadores assistindo à palestra. À esquerda, um integrante da equipe fala em pé, ao lado do notebook e do protótipo V1 sobre a mesa" width="320"> |
 
 ## Como o projeto começou
 
