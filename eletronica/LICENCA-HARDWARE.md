@@ -1,6 +1,6 @@
-# Licença do hardware — CERN-OHL-P 2.0
+# Licença da eletrônica e das peças 3D: CERN-OHL-P 2.0
 
-Todo o conteúdo de `hardware/` e `enclosure/` (esquemas, PCB, BOM e modelos 3D) é licenciado sob a **CERN Open Hardware Licence Version 2 — Permissive (CERN-OHL-P-2.0)**.
+Todo o conteúdo das pastas `eletronica/` e `modelagem-3d/` (esquema elétrico, lista de materiais e modelos 3D) está sob a **CERN Open Hardware Licence Version 2, Permissive (CERN-OHL-P-2.0)**. Em resumo: qualquer pessoa pode usar, estudar, modificar e fabricar, desde que mantenha os avisos de autoria. O texto oficial, em inglês, está abaixo.
 
 SPDX-License-Identifier: CERN-OHL-P-2.0
 
@@ -203,4 +203,4 @@ to the Product.
       acting as such, and third party beneficiary rights are
       specifically excluded.
 
-Copyright (c) 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho, Nadson Alex da Silva — Horizonte Inovação Assistiva.
+Copyright (c) 2026 Edson Gabriel Soares da Fonseca, João Luiz Pereira Filho, Nadson Alex da Silva, Horizonte Inovação Assistiva.
